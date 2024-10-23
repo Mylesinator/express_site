@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/nav-styles.css">
+    <link rel="stylesheet" href="css/register-styles.css">
+    <title>Sigma Air - Register</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+          <div class="logo-area">
+            <a href="/" class="logo">
+              <img src="assets/logo.svg" alt="vector image of lowercase letter m outlined with border" height="50px" width="50px">
+            </a>
+  
+            <a href="/" class="logo-text">Sigma Airlines</a>
+          </div>
+        </div> <!--end nav-left-->
+  
+        <div class="nav-right">
+          <div class="login">
+            <a href="/login" class="nav-button">Log In</a>
+          </div>
+        </div> <!--end nav-right-->
+      </nav>
+
+      <div class="register-container">
+        <form action="/users/register" id="register-form">
+            <h1>Sign Up</h1>
+
+            <div class="input-box">
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+
+            <div class="input-box">
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+
+            <div class="input-box">
+                <input type="password" id="password" name="password" required> <i>Password</i>
+            </div>
+
+            <button type="submit" id="sign-up-button">Sign Up</button>
+        </form>
+      </div>
+</body>
+</html>

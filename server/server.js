@@ -16,6 +16,14 @@ app.get("/", (req, res) => {
   res.sendFile("pages/index.html", { root: clientPath });
 });
 
+app.get("/register", (req, res) => {
+  res.sendFile("pages/register.html", { root: clientPath });
+});
+
+app.get("/login", (req, res) => {
+  res.sendFile("pages/login.html", { root: clientPath });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
