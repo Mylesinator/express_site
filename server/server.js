@@ -1,16 +1,29 @@
 const express = require("express");
+const session = require("express-session");
 const path = require("path");
 const fs = require("fs").promises;
-const bcrypt = require("bcrypt");
+const bcryptFunctions = require("./functions/bcrypt.js");
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 
 const clientPath = path.join(__dirname, "..", "client", "src");
+const usersPath = path.join(__dirname, "data", "users.json");
 const serverPublic = path.join(__dirname, "public");
 
 app.use(express.static(clientPath));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(session({
+  secret: "secret",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  }
+}));
 
 app.get("/", (req, res) => {
   res.sendFile("pages/index.html", { root: clientPath });
@@ -24,7 +37,63 @@ app.get("/login", (req, res) => {
   res.sendFile("pages/login.html", { root: clientPath });
 });
 
-const PORT = process.env.PORT || 3000;
+app.post("/users/register", async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+
+    let users = [];
+
+    try {
+      const data = await fs.readFile(usersPath, "utf8");
+      users = JSON.parse(data);
+    } catch (error) {
+      console.error(`Problem reading users`, error);
+      users = [];
+    }
+
+    if (users.find(u => u.email === email)) {
+      return res.status(409).send("Email already exists");
+    }
+
+    const hashedPassword = await bcryptFunctions.hashPassword(password);
+    console.log(hashedPassword);
+
+    const user = {uuid: uuidv4(), admin: false, username, email, password: hashedPassword, bookedFlights: []}
+    users.push(user);
+
+    await fs.writeFile(usersPath, JSON.stringify(users, null, 2));
+    return res.redirect("/register");
+  } catch (error) {
+
+  }
+});
+
+app.post("/users/login", async (req, res) => {
+  const { email, password } = req.body;
+  let users = [];
+
+  try {
+    const data = await fs.readFile(usersPath, "utf8");
+    users = JSON.parse(data);
+  } catch (error) {
+    console.error(`Problem reading users`, error);
+    users = [];
+  }
+
+  let user = users.find(u => u.email === email);
+
+  if (user) {
+    const validPassword = bcryptFunctions.validatePassword(password, user);
+
+    if (validPassword) {
+      req.session.user = {}
+    }
+  } else {
+    res.status(404).send(`Email not found: ${email}`);
+  }
+});
+
+const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

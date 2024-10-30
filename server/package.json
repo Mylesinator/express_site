@@ -3,20 +3,19 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
-  "scripts": {
-    "dev": "nodemon server.js"
-  },
   "devDependencies": {
     "nodemon": "^3.1.7"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "uuid": "^11.0.2"
   }
 }

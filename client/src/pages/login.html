@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/nav-styles.css">
     <link rel="stylesheet" href="css/user-form-styles.css">
     <link rel="shortcut icon" href="assets/logo_white.svg" type="image/x-icon">
-    <title>Sigma Air - Register</title>
+    <title>Sigma Air - Login</title>
 </head>
 <body>
     <nav>
@@ -22,19 +22,14 @@
   
         <div class="nav-right">
           <div class="login">
-            <a href="/login" class="nav-button">Log In</a>
+            <a href="/register" class="nav-button">Sign Up</a>
           </div>
         </div> <!--end nav-right-->
       </nav>
 
       <div class="form-container">
-        <form action="/users/register" method="POST" id="user-form">
-            <h1>Sign Up</h1>
-
-            <div class="input-box">
-              <!-- <label for="username">Username</label> <br> -->
-              <input type="text" id="username" name="username" placeholder="Username" required>
-            </div>
+        <form action="/users/login" method="POST" id="user-form">
+            <h1>Log In</h1>
 
             <div class="input-box">
               <!-- <label for="email">Email</label> <br> -->
@@ -47,7 +42,7 @@
             </div>
 
             <div class="input-box">
-              <button type="submit" id="sign-up-button">Sign Up</button>
+              <button type="submit" id="sign-up-button">Login</button>
             </div>
         </form>
       </div>
