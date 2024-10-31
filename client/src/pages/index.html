@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/nav-styles.css">
     <link rel="shortcut icon" href="assets/logo_white.svg" type="image/x-icon">
-    <title>Sigma Air - Home</title>
+    <script src="js/userAuth.js"></script>
+    <script src="js/navFunction.js"></script>
+    <title>FM - Home</title>
   </head>
   <body>
     <nav>
@@ -15,7 +17,7 @@
             <img src="assets/logo.svg" alt="vector image of lowercase letter m outlined with border" height="50px" width="50px">
           </a>
 
-          <a href="/" class="logo-text">Sigma Airlines</a>
+          <a href="/" class="logo-text">Flight Match</a>
         </div>
       </div> <!--end nav-left-->
       
@@ -24,6 +26,12 @@
           <a href="/register" class="nav-button">Sign Up</a>
           or
           <a href="/login" class="nav-button">Log In</a>
+        </div>
+
+        <div class="user-display">
+          <img src="assets/user-icon.svg" alt="icon for user account">
+
+          <span id="user-display-name">Username</span>
         </div>
       </div> <!--end nav-right-->
     </nav>

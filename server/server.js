@@ -40,9 +40,9 @@ app.get("/login", (req, res) => {
 app.post("/users/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
-
+    
     let users = [];
-
+    
     try {
       const data = await fs.readFile(usersPath, "utf8");
       users = JSON.parse(data);
@@ -50,28 +50,28 @@ app.post("/users/register", async (req, res) => {
       console.error(`Problem reading users`, error);
       users = [];
     }
-
+    
     if (users.find(u => u.email === email)) {
       return res.status(409).send("Email already exists");
     }
-
+    
     const hashedPassword = await bcryptFunctions.hashPassword(password);
     console.log(hashedPassword);
-
+    
     const user = {uuid: uuidv4(), admin: false, username, email, password: hashedPassword, bookedFlights: []}
     users.push(user);
-
+    
     await fs.writeFile(usersPath, JSON.stringify(users, null, 2));
     return res.redirect("/register");
   } catch (error) {
-
+    
   }
 });
 
 app.post("/users/login", async (req, res) => {
   const { email, password } = req.body;
   let users = [];
-
+  
   try {
     const data = await fs.readFile(usersPath, "utf8");
     users = JSON.parse(data);
@@ -79,17 +79,28 @@ app.post("/users/login", async (req, res) => {
     console.error(`Problem reading users`, error);
     users = [];
   }
-
-  let user = users.find(u => u.email === email);
-
-  if (user) {
-    const validPassword = bcryptFunctions.validatePassword(password, user);
-
+  
+  let validUser = users.find(u => u.email === email);
+  
+  if (validUser) {
+    const validPassword = bcryptFunctions.validatePassword(password, validUser);
+    
     if (validPassword) {
-      req.session.user = {}
+      delete validUser.password;
+      req.session.user = validUser;
     }
   } else {
-    res.status(404).send(`Email not found: ${email}`);
+    return res.status(404).send(`Email not found: ${email}`);
+  }
+  
+  res.redirect("/");
+});
+
+app.get("/users/auth", (req, res) => {
+  let user = req.session.user;
+
+  if (user) {
+    res.status(200).json({ user });
   }
 });
 
