@@ -21,7 +21,7 @@ app.use(session({
   cookie: {
     httpOnly: true,
     secure: false,
-    maxAge: 7 * 24 * 60 * 60 * 1000
+    maxAge: 20000
   }
 }));
 
@@ -62,7 +62,7 @@ app.post("/users/register", async (req, res) => {
     users.push(user);
     
     await fs.writeFile(usersPath, JSON.stringify(users, null, 2));
-    return res.redirect("/register");
+    res.redirect("/register");
   } catch (error) {
     
   }
