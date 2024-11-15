@@ -9,7 +9,7 @@ function loginCheck() {
         loginSection.style.display = "none";
         userDisplay.style.display = "flex";
         userNameDisplay.textContent = user.username;
-
+        
         // userDisplay.addEventListener("click", () => {
         //     window.location = ""
         // });
